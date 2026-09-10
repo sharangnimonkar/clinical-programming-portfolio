@@ -122,7 +122,6 @@ ds <- ds %>%
     STUDYID = ds_raw$STUDY,      
     DOMAIN  = "DS",
     USUBJID = paste0("01-", ds_raw$PATNUM),
-    DSTERM  = toupper(DSTERM), # Converts to uppercase 
     DSDECOD  = toupper(DSDECOD), # Converts to uppercase
     DSSTDTC = stringr::str_sub(DSDTC, 1, 10) # Extracts the ISO date segment
   ) %>%
