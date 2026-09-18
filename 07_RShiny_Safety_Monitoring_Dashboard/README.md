@@ -29,27 +29,45 @@ data derived with {admiral} from the CDISC pilot study. No synthetic data.
 PROJECT STRUCTURE:
 ------------------------------------------------------------------------
 
-07_RShiny_Safety_Monitoring_Dashboard/
-├── README.md                          <-- This file
-├── Preview.gif                        <-- Animated walkthrough of the dashboard
-└── Safety Monitoring Dashboard.R      <-- Single-file Shiny app
-    │
-    ├── Data load                      <-- pharmaverseadam::adsl / ::adae
-    ├── pick_col()                     <-- Resolves ADaM variable names at startup
-    ├── adsl_w / adae_w                <-- Standardised working frames (SAFFL == "Y")
-    │
-    ├── ui                             <-- dashboardPage: header, sidebar, body
-    │   ├── Sidebar filters            <-- Arm, SOC, severity, TEAE, serious
-    │   ├── Tab: Overview              <-- Value boxes, PT incidence, severity, SOC table
-    │   ├── Tab: AE Listing            <-- Filterable DT listing
-    │   └── Tab: Subject Profile       <-- ADSL header, AE timeline, per-subject listing
-    │
-    └── server                         <-- Reactive logic
-        ├── filtered_subjects()        <-- Incidence denominator (safety population)
-        ├── filtered_ae()              <-- All sidebar filters applied
-        ├── plot_pt / plot_sev         <-- Overview plotly outputs
-        ├── soc_table / ae_table       <-- DT outputs
-        └── subj_* outputs             <-- Subject profile header, timeline, listing
+07_RShiny_Safety_Monitoring_Dashboard
+│
+├── Data loading
+│   ├── pharmaverseadam::adsl
+│   └── pharmaverseadam::adae
+│
+├── Data preparation
+│   ├── pick_col()       # Resolves ADaM variable names
+│   ├── adsl_w          # Safety population (SAFFL == "Y")
+│   └── adae_w          # AE data linked to the safety population
+│
+├── UI
+│   ├── Sidebar filters
+│   │   ├── Treatment arm
+│   │   ├── SOC
+│   │   ├── Severity
+│   │   ├── Treatment-emergent AE
+│   │   └── Serious AE
+│   │
+│   ├── Overview
+│   │   ├── Safety population / AE metrics
+│   │   ├── PT incidence
+│   │   ├── Severity by treatment arm
+│   │   └── SOC summary
+│   │
+│   ├── AE Listing
+│   │   └── Filterable/sortable DT table
+│   │
+│   └── Subject Profile
+│       ├── Subject demographics
+│       ├── AE timeline
+│       └── Subject-level AE listing
+│
+└── Server
+    ├── filtered_subjects()
+    ├── filtered_ae()
+    ├── plot_pt / plot_sev
+    ├── soc_table / ae_table
+    └── Subject Profile outputs
 
 **No `data/` directory by design.** ADSL and ADAE are loaded from the
 `pharmaverseadam` package at runtime, so there is nothing to generate, stage,
