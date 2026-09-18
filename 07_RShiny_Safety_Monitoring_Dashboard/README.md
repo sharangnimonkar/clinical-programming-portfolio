@@ -1,8 +1,6 @@
 # Safety Monitoring Dashboard (R Shiny + pharmaverseadam)
 
-An interactive adverse-event safety review dashboard built directly on
-**pharmaverseadam** ADaM datasets (`adsl`, `adae`) — the pharmaverse ADaM
-data derived with {admiral} from the CDISC pilot study. No synthetic data.
+Interactive clinical safety monitoring dashboard built with R Shiny and pharmaverse ADaM datasets, providing treatment-level AE summaries, SOC/PT analysis, subject-level listings, and longitudinal AE timelines with reactive filtering.
 
 ## Features
 
