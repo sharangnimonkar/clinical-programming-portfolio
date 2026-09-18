@@ -74,6 +74,6 @@ clinical-programming-portfolio/
 - Reproducible workflows
 - Data transformation and validation
 - Report automation
-- Clinical reporting using R Shiny Dashboarding
+- Interactive clinical safety monitoring & visualization using R Shiny
 - Software development best practices
 - Cross-language programming (R & Python)
