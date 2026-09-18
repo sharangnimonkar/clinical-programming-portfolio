@@ -15,7 +15,8 @@ clinical-programming-portfolio/
 ├── 03_ADaM_Programming/
 ├── 04_TLG_Generation/
 ├── 05_Python_Data_Processing/
-└── 06_AI_Clinical_Data_Agent/
+├── 06_AI_Clinical_Data_Agent/
+└── 07_RShiny_Safety_Monitoring_Dashboard/
 ```
 
 ## Project Modules
@@ -50,6 +51,12 @@ clinical-programming-portfolio/
 - Automated query handling
 - Python-based workflow implementation
 
+### 07. R Shiny Safety Monitoring Dashboard
+- Interactive AE safety review dashboard built on pharmaverseadam ADaM datasets.
+- Subject-level incidence summaries by SOC and preferred term
+- AE listings and per-subject adverse event timelines
+- Reactive filtering by treatment arm, severity, and treatment-emergent status
+
 ## Technologies
 
 - R Programming
@@ -67,6 +74,6 @@ clinical-programming-portfolio/
 - Reproducible workflows
 - Data transformation and validation
 - Report automation
-- Clinical reporting
+- Clinical reporting using R Shiny Dashboarding
 - Software development best practices
 - Cross-language programming (R & Python)
