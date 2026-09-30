@@ -1,0 +1,76 @@
+---
+title: "Introduction to classiccompare"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to classiccompare}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(classiccompare)
+```
+
+## Basic comparison
+
+`classic_compare()` compares two data frames the way SAS's PROC COMPARE
+compares two datasets. With no `id` or `by`, observations are matched by
+row position:
+
+```{r}
+base <- data.frame(id = c("A", "B", "C"), x = c(1, 2, 3), y = c("a", "b", "c"))
+comp <- data.frame(id = c("C", "A", "D"), x = c(3, 1.5, 9), y = c("c", "a", "d"))
+
+classic_compare(base, comp)
+```
+
+## Matching by ID
+
+Supplying `id` matches observations by key value instead of position, so
+row order and dropped/added rows don't produce misleading results:
+
+```{r}
+classic_compare(base, comp, id = "id", listall = TRUE)
+```
+
+## Tolerance-based comparison
+
+```{r}
+classic_compare(data.frame(x = 100), data.frame(x = 100.4),
+                method = "percent", criterion = 0.5)
+```
+
+## Return code for QC scripts
+
+```{r}
+res <- classic_compare(base, comp, id = "id")
+sysinfo(res)
+sysinfo_decode(sysinfo(res))
+```
+
+```{r}
+stopifnot_example <- tryCatch(
+  stopifnot(sysinfo(res) == 0L),
+  error = function(e) "datasets differ — this would normally halt a QC script"
+)
+stopifnot_example
+```
+
+## Comparing only specific variables
+
+```{r}
+classic_compare(base, comp, id = "id", var = "x")
+```
+
+## Structure-only comparison
+
+```{r}
+classic_compare(base, comp, id = "id", novalues = TRUE, listall = TRUE)
+```

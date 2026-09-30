@@ -1,0 +1,7 @@
+^renv$
+^renv\.lock$
+^classiccompare\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^doc$
+^Meta$
