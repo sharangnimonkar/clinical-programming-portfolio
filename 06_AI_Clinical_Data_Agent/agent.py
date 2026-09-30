@@ -2,7 +2,7 @@
 Clinical Trial GenAI Data Assistant
 =====================================
 Translates free-text clinical questions into structured Pandas queries
-using an LLM (Claude via Anthropic API) through LangChain.
+using an LLM (OpenAI GPT-3.5 via LangChain) through LangChain.
 
 If no API key is available, the agent falls back to a mock LLM
 so the full Prompt -> Parse -> Execute flow is always demonstrable.
