@@ -27,12 +27,12 @@ if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 
 # descriptiveStats
 devtools::install\_local(
-  here::here("01\_R\_Package\_Development", "descriptiveStats\_0.1.0.tar.gz")
+  here::here("01\_R\_Package\_Development", "descriptiveStats_0.1.0.tar.gz")
 )
 
 # classiccompare
 devtools::install\_local(
-  here::here("01\_R\_Package\_Development", "classiccompare\_0.1.0.tar.gz")
+  here::here("01\_R\_Package\_Development", "classiccompare_0.0.0.9000.tar.gz")
 )
 ```
 
