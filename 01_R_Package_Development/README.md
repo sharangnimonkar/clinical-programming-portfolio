@@ -26,12 +26,12 @@ the source folder with `devtools::install()`.
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 
 # descriptiveStats
-devtools::install\_local(
+devtools::install_local(
   here::here("01_R_Package_Development", "descriptiveStats_0.1.0.tar.gz")
 )
 
 # classiccompare
-devtools::install\_local(
+devtools::install_local(
   here::here("01_R_Package_Development", "classiccompare_0.0.0.9000.tar.gz")
 )
 ```
