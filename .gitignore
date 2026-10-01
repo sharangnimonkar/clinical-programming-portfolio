@@ -1,4 +1,31 @@
+# R / RStudio session files
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# Secrets and local config (never commit these)
+.Renviron
+.env
+
+# R package build and check output
+*.Rcheck/
+.Rbuildignore.bak
+
+# Shiny deployment metadata (created by rsconnect)
+rsconnect/
+
+# renv: commit renv.lock, ignore the local library
+renv/library/
+renv/staging/
+
+# Python (for Modules 05 and 06)
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
