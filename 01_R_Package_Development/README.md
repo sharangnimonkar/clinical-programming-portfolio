@@ -1,4 +1,4 @@
-01. R Package Development
+## 01. R Package Development
 
 Two R packages built from scratch as part of my clinical programming
 portfolio: package structure, `roxygen2` documentation, `testthat` unit
