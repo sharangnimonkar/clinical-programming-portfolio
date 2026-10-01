@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: rocker/r-ver:4.5.1   
+      image: rocker/r-ver:4.5.1
 
     steps:
       - uses: actions/checkout@v4
@@ -18,10 +18,22 @@ jobs:
       - name: Install system libraries
         run: |
           apt-get update
-          apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+          apt-get install -y \
+            pandoc \
+            libcurl4-openssl-dev \
+            libssl-dev \
+            libxml2-dev \
+            libgit2-dev \
+            libfontconfig1-dev \
+            libfreetype6-dev \
+            libharfbuzz-dev \
+            libfribidi-dev \
+            libpng-dev \
+            libtiff-dev \
+            libjpeg-dev
 
       - name: Install R tooling
-        run: Rscript -e 'install.packages(c("devtools", "testthat"))'
+        run: Rscript -e 'install.packages(c("devtools", "testthat", "knitr", "rmarkdown"))'
 
       - name: Install package dependencies
         run: |
@@ -29,7 +41,9 @@ jobs:
           Rscript -e 'devtools::install_deps("01_R_Package_Development/descriptive_stats", dependencies = TRUE)'
 
       - name: Check classiccompare
-        run: Rscript -e 'devtools::check("01_R_Package_Development/classiccompare", error_on = "warning")'
+        run: Rscript -e 'devtools::check("01_R_Package_Development/classiccompare", args = "--no-manual", error_on = "warning")'
 
       - name: Check descriptiveStats
-        run: Rscript -e 'devtools::check("01_R_Package_Development/descriptive_stats", error_on = "warning")'
+        run: Rscript -e 'devtools::check("01_R_Package_Development/descriptive_stats", args = "--no-manual", error_on = "warning")'
+
+
