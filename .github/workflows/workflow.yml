@@ -10,11 +10,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: rocker/r-ver:4.5.1
+      image: rocker/r-ver:4.5.1   
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Show R version
-        run: Rscript -e 'R.version.string'
+      - name: Install system libraries
+        run: |
+          apt-get update
+          apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
 
+      - name: Install R tooling
+        run: Rscript -e 'install.packages(c("devtools", "testthat"))'
+
+      - name: Install package dependencies
+        run: |
+          Rscript -e 'devtools::install_deps("01_R_Package_Development/classiccompare", dependencies = TRUE)'
+          Rscript -e 'devtools::install_deps("01_R_Package_Development/descriptive_stats", dependencies = TRUE)'
+
+      - name: Check classiccompare
+        run: Rscript -e 'devtools::check("01_R_Package_Development/classiccompare", error_on = "warning")'
+
+      - name: Check descriptiveStats
+        run: Rscript -e 'devtools::check("01_R_Package_Development/descriptive_stats", error_on = "warning")'
