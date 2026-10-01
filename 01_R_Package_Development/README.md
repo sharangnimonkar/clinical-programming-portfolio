@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 01\. R Package Development
 
 Two R packages built from scratch as part of my clinical programming
@@ -91,5 +90,3 @@ programming QC — comparing production and validation datasets (e.g. two
 versions of `ADSL`) — for teams working in R (`pharmaverse`) rather than
 SAS, while keeping the return-code-driven, automatable workflow that
 `PROC COMPARE` and `SYSINFO` provide in a SAS environment.
-
->>>>>>> e74dee2 (Add GitHub Actions workflow and update files)
