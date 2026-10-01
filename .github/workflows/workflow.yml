@@ -67,9 +67,10 @@ jobs:
           apt-get update
           apt-get install -y \
             pandoc qpdf \
+            libuv1-dev \
             libcurl4-openssl-dev libssl-dev libxml2-dev libgit2-dev \
             libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev \
-            libpng-dev libtiff-dev libjpeg-dev
+            libpng-dev libtiff-dev libjpeg-dev libwebp-dev libcairo2-dev
 
       - name: Install packages used by this module
         run: |
@@ -78,7 +79,7 @@ jobs:
 
       - name: Show key package versions
         run: |
-          Rscript -e 'for (p in c("admiral", "pharmaversesdtm", "dplyr")) if (requireNamespace(p, quietly = TRUE)) cat(p, as.character(packageVersion(p)), "\n")'
+          Rscript -e 'for (p in c("admiral", "pharmaversesdtm", "dplyr", "gt")) if (requireNamespace(p, quietly = TRUE)) cat(p, as.character(packageVersion(p)), "\n")'
 
       - name: Run R scripts in order
         working-directory: ${{ matrix.module }}
@@ -107,9 +108,10 @@ jobs:
         run: |
           apt-get update
           apt-get install -y \
+            libuv1-dev \
             libcurl4-openssl-dev libssl-dev libxml2-dev libgit2-dev \
             libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev \
-            libpng-dev libtiff-dev libjpeg-dev
+            libpng-dev libtiff-dev libjpeg-dev libwebp-dev libcairo2-dev
 
       - name: Install packages used by the app
         run: |
