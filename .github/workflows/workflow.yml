@@ -58,6 +58,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Use latest CRAN packages
+        run: |
+          echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/noble/latest"))' >> "$(R RHOME)/etc/Rprofile.site"
+
       - name: Install system libraries
         run: |
           apt-get update
@@ -71,6 +75,10 @@ jobs:
         run: |
           Rscript -e 'install.packages("renv")'
           Rscript -e 'pkgs <- unique(renv::dependencies("${{ matrix.module }}")$Package); missing <- setdiff(pkgs, rownames(installed.packages())); if (length(missing)) install.packages(missing)'
+
+      - name: Show key package versions
+        run: |
+          Rscript -e 'for (p in c("admiral", "pharmaversesdtm", "dplyr")) if (requireNamespace(p, quietly = TRUE)) cat(p, as.character(packageVersion(p)), "\n")'
 
       - name: Run R scripts in order
         working-directory: ${{ matrix.module }}
@@ -90,6 +98,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+
+      - name: Use latest CRAN packages
+        run: |
+          echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/noble/latest"))' >> "$(R RHOME)/etc/Rprofile.site"
 
       - name: Install system libraries
         run: |
