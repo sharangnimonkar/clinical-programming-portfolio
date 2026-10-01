@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: rocker/r-ver:4.5.1
+    env:
+      _R_CHECK_SYSTEM_CLOCK_: "false"
 
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +22,7 @@ jobs:
           apt-get update
           apt-get install -y \
             pandoc \
+            qpdf \
             libcurl4-openssl-dev \
             libssl-dev \
             libxml2-dev \
@@ -45,5 +48,6 @@ jobs:
 
       - name: Check descriptiveStats
         run: Rscript -e 'devtools::check("01_R_Package_Development/descriptive_stats", args = "--no-manual", error_on = "warning")'
+
 
 
