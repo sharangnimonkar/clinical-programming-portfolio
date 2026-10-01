@@ -6,13 +6,15 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  _R_CHECK_SYSTEM_CLOCK_: "false"
+
 jobs:
-  build:
+  r-packages:
+    name: Module 01 - R packages
     runs-on: ubuntu-24.04
     container:
-      image: rocker/r-ver:4.5.1   
-    env:
-      _R_CHECK_SYSTEM_CLOCK_: "false"
+      image: rocker/r-ver:4.5.1
 
     steps:
       - uses: actions/checkout@v5
@@ -21,19 +23,10 @@ jobs:
         run: |
           apt-get update
           apt-get install -y \
-            pandoc \
-            qpdf \
-            libcurl4-openssl-dev \
-            libssl-dev \
-            libxml2-dev \
-            libgit2-dev \
-            libfontconfig1-dev \
-            libfreetype6-dev \
-            libharfbuzz-dev \
-            libfribidi-dev \
-            libpng-dev \
-            libtiff-dev \
-            libjpeg-dev
+            pandoc qpdf \
+            libcurl4-openssl-dev libssl-dev libxml2-dev libgit2-dev \
+            libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev \
+            libpng-dev libtiff-dev libjpeg-dev
 
       - name: Install R tooling
         run: Rscript -e 'install.packages(c("devtools", "testthat", "knitr", "rmarkdown"))'
@@ -49,3 +42,68 @@ jobs:
       - name: Check descriptiveStats
         run: Rscript -e 'devtools::check("01_R_Package_Development/descriptive_stats", args = "--no-manual", error_on = "warning")'
 
+  r-modules:
+    name: ${{ matrix.module }}
+    runs-on: ubuntu-24.04
+    container:
+      image: rocker/r-ver:4.5.1
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - 02_SDTM_Programming
+          - 03_ADaM_Programming
+          - 04_TLG_Generation
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install system libraries
+        run: |
+          apt-get update
+          apt-get install -y \
+            pandoc qpdf \
+            libcurl4-openssl-dev libssl-dev libxml2-dev libgit2-dev \
+            libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev \
+            libpng-dev libtiff-dev libjpeg-dev
+
+      - name: Install packages used by this module
+        run: |
+          Rscript -e 'install.packages("renv")'
+          Rscript -e 'pkgs <- unique(renv::dependencies("${{ matrix.module }}")$Package); missing <- setdiff(pkgs, rownames(installed.packages())); if (length(missing)) install.packages(missing)'
+
+      - name: Run R scripts in order
+        working-directory: ${{ matrix.module }}
+        shell: bash
+        run: |
+          for f in $(ls *.R | sort); do
+            echo "::group::Running $f"
+            Rscript "$f" || exit 1
+            echo "::endgroup::"
+          done
+
+  shiny-app:
+    name: Module 07 - Shiny app smoke test
+    runs-on: ubuntu-24.04
+    container:
+      image: rocker/r-ver:4.5.1
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install system libraries
+        run: |
+          apt-get update
+          apt-get install -y \
+            libcurl4-openssl-dev libssl-dev libxml2-dev libgit2-dev \
+            libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev \
+            libpng-dev libtiff-dev libjpeg-dev
+
+      - name: Install packages used by the app
+        run: |
+          Rscript -e 'install.packages(c("renv", "shiny"))'
+          Rscript -e 'pkgs <- unique(renv::dependencies("07_RShiny_Safety_Monitoring_Dashboard")$Package); missing <- setdiff(pkgs, rownames(installed.packages())); if (length(missing)) install.packages(missing)'
+
+      - name: Smoke test - app script parses
+        run: |
+          Rscript -e 'invisible(parse(file = "07_RShiny_Safety_Monitoring_Dashboard/Safety Monitoring Dashboard.R")); cat("App script parsed OK\n")'
