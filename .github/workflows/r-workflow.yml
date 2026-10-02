@@ -1,4 +1,4 @@
-name: CI workflow
+name: R Workflow
 
 on:
   push:
@@ -43,17 +43,23 @@ jobs:
         run: Rscript -e 'devtools::check("01_R_Package_Development/descriptive_stats", args = "--no-manual", error_on = "warning")'
 
   r-modules:
-    name: ${{ matrix.module }}
+    name: Module ${{ matrix.number }} - ${{ matrix.label }}
     runs-on: ubuntu-24.04
     container:
       image: rocker/r-ver:4.5.1
     strategy:
       fail-fast: false
       matrix:
-        module:
-          - 02_SDTM_Programming
-          - 03_ADaM_Programming
-          - 04_TLG_Generation
+        include:
+          - number: "02"
+            label: SDTM
+            path: 02_SDTM_Programming
+          - number: "03"
+            label: ADaM
+            path: 03_ADaM_Programming
+          - number: "04"
+            label: TLFs
+            path: 04_TLG_Generation
 
     steps:
       - uses: actions/checkout@v5
@@ -75,14 +81,14 @@ jobs:
       - name: Install packages used by this module
         run: |
           Rscript -e 'install.packages("renv")'
-          Rscript -e 'pkgs <- unique(renv::dependencies("${{ matrix.module }}")$Package); missing <- setdiff(pkgs, rownames(installed.packages())); if (length(missing)) install.packages(missing)'
+          Rscript -e 'pkgs <- unique(renv::dependencies("${{ matrix.path }}")$Package); missing <- setdiff(pkgs, rownames(installed.packages())); if (length(missing)) install.packages(missing)'
 
       - name: Show key package versions
         run: |
           Rscript -e 'for (p in c("admiral", "pharmaversesdtm", "dplyr", "gt")) if (requireNamespace(p, quietly = TRUE)) cat(p, as.character(packageVersion(p)), "\n")'
 
       - name: Run R scripts in order
-        working-directory: ${{ matrix.module }}
+        working-directory: ${{ matrix.path }}
         shell: bash
         run: |
           for f in $(ls *.R | sort); do

@@ -1,6 +1,6 @@
 # Clinical Programming Portfolio
 
-![CI](https://github.com/sharangnimonkar/clinical-programming-portfolio/actions/workflows/workflow.yml/badge.svg)
+![R Workflow](https://github.com/sharangnimonkar/clinical-programming-portfolio/actions/workflows/r-workflow.yml/badge.svg)
 
 This repository showcases my technical portfolio in clinical programming using **R**, **Python**, and **CDISC standards**. It demonstrates modern programming workflows for clinical trial data processing, analysis dataset creation, reporting, and automation.
 
