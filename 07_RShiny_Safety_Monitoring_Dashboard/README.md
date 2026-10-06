@@ -2,7 +2,7 @@
 
 Interactive clinical safety monitoring dashboard built with R Shiny and pharmaverse ADaM datasets, providing treatment-level AE summaries, SOC/PT analysis, subject-level listings, and longitudinal AE timelines with reactive filtering.
 
-**Live demo:** [Safety Monitoring Dashboard](https://01a112d7-767a-b46d-7573-c2bbb479079d.share.connect.posit.cloud/)
+**Live demo:** [Safety Monitoring Dashboard](https://sharangnimonkar-clinical-safety-monitoring-dashboard.share.connect.posit.cloud)
 
 > Hosted on a free tier, so the first load may take a few seconds while the app wakes up. All data is synthetic (`pharmaverseadam`), with no real patient data.
 
