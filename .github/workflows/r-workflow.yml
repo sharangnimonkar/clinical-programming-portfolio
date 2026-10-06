@@ -97,7 +97,7 @@ jobs:
             echo "::endgroup::"
           done
 
-  shiny-app:
+    shiny-app:
     name: Module 07 - Shiny app smoke test
     runs-on: ubuntu-24.04
     container:
@@ -114,16 +114,38 @@ jobs:
         run: |
           apt-get update
           apt-get install -y \
+            curl \
             libuv1-dev \
             libcurl4-openssl-dev libssl-dev libxml2-dev libgit2-dev \
             libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev \
             libpng-dev libtiff-dev libjpeg-dev libwebp-dev libcairo2-dev
 
+      - name: Check deployment files exist
+        run: |
+          test -f 07_RShiny_Safety_Monitoring_Dashboard/app.R
+          test -f 07_RShiny_Safety_Monitoring_Dashboard/manifest.json
+
       - name: Install packages used by the app
         run: |
           Rscript -e 'install.packages(c("renv", "shiny"))'
-          Rscript -e 'pkgs <- unique(renv::dependencies("07_RShiny_Safety_Monitoring_Dashboard")$Package); missing <- setdiff(pkgs, rownames(installed.packages())); if (length(missing)) install.packages(missing)'
+          Rscript -e 'pkgs <- unique(renv::dependencies("07_RShiny_Safety_Monitoring_Dashboard/app.R")$Package); missing <- setdiff(pkgs, rownames(installed.packages())); if (length(missing)) install.packages(missing)'
 
-      - name: Smoke test - app script parses
+      - name: Smoke test - app starts and responds
+        shell: bash
         run: |
-          Rscript -e 'invisible(parse(file = "07_RShiny_Safety_Monitoring_Dashboard/Safety Monitoring Dashboard.R")); cat("App script parsed OK\n")'
+          Rscript -e 'shiny::runApp("07_RShiny_Safety_Monitoring_Dashboard", host = "127.0.0.1", port = 3838, launch.browser = FALSE)' > app.log 2>&1 &
+          APP_PID=$!
+          ok=0
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3838/ || true)
+            if [ "$code" = "200" ]; then ok=1; break; fi
+            sleep 2
+          done
+          echo "---- app log ----"
+          cat app.log
+          kill $APP_PID || true
+          if [ "$ok" != "1" ]; then
+            echo "App did not return HTTP 200"
+            exit 1
+          fi
+          echo "App responded OK"

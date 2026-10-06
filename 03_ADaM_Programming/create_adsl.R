@@ -209,5 +209,3 @@ adsl <- adsl %>%
     # Survival Tracker Metrics
     LSTALVDT, DTHDTC, DTHFL
   )
-
-

@@ -29,8 +29,9 @@ PROJECT STRUCTURE:
 ```
 07_RShiny_Safety_Monitoring_Dashboard/
 ├── README.md                          <-- This file
+├── manifest.json                      <-- Dependencies
 ├── Preview.gif                        <-- Animated walkthrough of the dashboard
-└── Safety Monitoring Dashboard.R      <-- Single-file Shiny app
+└── app.R      			       <-- Single-file Shiny app
     │
     ├── Data load                      <-- pharmaverseadam::adsl / ::adae
     ├── pick_col()                     <-- Resolves ADaM variable names at startup
