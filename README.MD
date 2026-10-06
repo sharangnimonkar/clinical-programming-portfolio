@@ -59,7 +59,7 @@ Two R packages built from scratch, with `roxygen2` documentation, `testthat` uni
 - Automated query handling
 - Python-based workflow implementation
 
-### 07. R Shiny Safety Monitoring Dashboard
+### 07. R Shiny Safety Monitoring Dashboard(https://sharangnimonkar-clinical-safety-monitoring-dashboard.share.connect.posit.cloud)
 - Interactive AE safety review dashboard built on pharmaverseadam ADaM datasets
 - Subject-level incidence summaries by SOC and preferred term
 - AE listings and per-subject adverse event timelines
