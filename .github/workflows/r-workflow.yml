@@ -97,7 +97,7 @@ jobs:
             echo "::endgroup::"
           done
 
-    shiny-app:
+  shiny-app:
     name: Module 07 - Shiny app smoke test
     runs-on: ubuntu-24.04
     container:
